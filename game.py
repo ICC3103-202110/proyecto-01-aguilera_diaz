@@ -157,3 +157,78 @@ class Game():
                         self.players.remove(player)
                     answer = True
             return answer
+    def play(self):
+        self.initialice_names()
+        self.initialice_cards()
+        self.give_cards()
+        playing = 0
+        while playing == 0:
+            for p in self.players:
+                answer = False
+                while not answer: 
+                    print()
+                    print("1. Play Card")
+                    print("2. Income")
+                    print("3. Foreign Aid")
+                    print("4. Coup")
+                    print("5. See your cards")
+                    print("8. Quit Game")
+                    print()
+                    action = int(input(f"What action do you want to do {p.name}?: "))
+                    if action == 1:
+                        answer = self.play_cards(p)
+                    elif action == 2:
+                        p.coins += 2
+                        print()
+                        print("You gained 2 coins")
+                        print(f"{p.name}: coins: {p.coins}")
+                        print()
+                        answer = True
+                    elif action == 3:
+                        print()
+                        actcard = "foreign aid"
+                        listcardsplayer = list(p.cards)
+                        deck = self.cards
+                        counterattackp1 = Counterattack()
+                        cha = counterattackp1.action(p, self.players, actcard, deck)
+                        
+                        if cha == "has the card":
+                            print(f"{p.name} you lost your turn, they blocked your foreign aid")
+                            answer = True
+                        else:
+                            FA = Foreign_Aid()
+                            FA.play(p)
+                            print()
+                            answer = True
+                    
+                    elif action == 4:
+                        print()
+                        coup = Coup()
+                        print("In what player do you want to use the card: ")
+                        opcions = []
+                        for index, j in enumerate(self.players):
+                            if j != p:
+                                print(f"{index}. {j}")
+                                opcions.append(index)
+                        print()
+                        player_index = int(input("What player you want to coup? "))
+                        targetcoup = self.players[player_index]
+                        coupp1 = coup.play(p, targetcoup)
+                        print()
+                        if coupp1 == True:
+                            answer = True
+                        else:
+                            answer = False
+                    elif action == 5:
+                        print(p.cards)
+                    elif action == 8:
+                        playing = 1
+                        break
+                    if len(self.players) == 1:
+                        print(f"The winner is {p.name}")
+                        playing = 1
+                        break
+
+game = Game()
+game.play()
+    
