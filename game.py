@@ -1,3 +1,12 @@
+import random
+from action import Player, Foreign_Aid, Coup
+from challenge import Challenge
+from counterattack import Counterattack
+from duke import Duke
+from countess import Countess
+from assassin import Assassin
+from captain import Captain
+from ambassador import Ambassador
 class Game():
     def __init__(self):
         self.players = []
